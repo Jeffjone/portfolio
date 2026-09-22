@@ -105,7 +105,7 @@ const server = http.createServer(async (request, response) => {
     await navigate('home'); await navigate('experience'); await page.goBack();
     assert(await page.locator('#home').isVisible());
     await page.setViewportSize({ width: 390, height: 844 });
-    for (const route of ['home', 'projects', 'experience', 'awards', 'skills', 'room']) {
+    for (const route of ['home', 'projects', 'experience', 'awards', 'skills', 'room', 'signdex']) {
       await navigate(route);
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Overflow on mobile ${route}`);
     }
@@ -123,7 +123,7 @@ const server = http.createServer(async (request, response) => {
     const noJS = await browser.newPage({ javaScriptEnabled: false });
     await noJS.route('https://fonts.googleapis.com/**', route => route.abort());
     await noJS.goto(base);
-    assert.equal(await noJS.locator('.game-panel:visible').count(), 6);
+    assert.equal(await noJS.locator('.game-panel:visible').count(), 7);
     assert.equal(await noJS.locator('#encounter').isVisible(), false);
     const blocked = await browser.newPage({ reducedMotion: 'reduce' });
     await blocked.route('https://fonts.googleapis.com/**', route => route.abort());

@@ -12,9 +12,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/entrance.css">
+  <link rel="stylesheet" href="assets/css/signdex.css">
   <script src="assets/js/app.js" defer></script>
   <script src="assets/js/game.js" defer></script>
   <script src="assets/js/integrations.js" defer></script>
+  <script src="assets/js/signdex-config.js" defer></script>
+  <script src="assets/js/signdex-pokemon.js" defer></script>
+  <script src="assets/js/signdex-model.js" defer></script>
+  <script src="assets/js/signdex.js" defer></script>
 </head>
 <body>
   <div class="encounter" id="encounter" hidden>
@@ -57,6 +62,7 @@
         <a href="#awards" data-route="awards"><span>✧</span> Badge case <small>04</small></a>
         <a href="#skills" data-route="skills"><span>ϟ</span> Move set <small>05</small></a>
         <a href="#room" data-route="room"><span>♫</span> My room <small>06</small></a>
+        <a href="#signdex" data-route="signdex"><span>✎</span> SignDex <small>07</small></a>
       </nav>
       <a class="resume-link" href="assets/documents/Resume.pdf" target="_blank" rel="noopener">↓ Open trainer résumé</a>
     </aside>
@@ -74,7 +80,7 @@
           <span class="map-tip">SELECT A LOCATION TO EXPLORE</span>
         </div>
         <div class="dialogue-box"><div class="speaker">JEFFREY</div><p id="welcome-dialogue" aria-live="polite">Hey, trainer! I’m a CS² Honors student at UT Dallas. I build software, train models, and occasionally touch grass. The tall kind, obviously.</p><button class="dialogue-next" id="next-dialogue" aria-label="Next dialogue">▼</button></div>
-        <div class="home-actions"><a href="#projects" data-route="projects" class="game-button primary">▶ Explore Project Dex</a><button class="game-button" id="quiz-open">? Who’s that project?</button></div>
+        <div class="home-actions"><a href="#projects" data-route="projects" class="game-button primary">▶ Explore Project Dex</a><button class="game-button" id="quiz-open">? Who’s that project?</button><a href="#signdex" data-route="signdex" class="game-button">✎ Leave your signature</a></div>
         <div class="home-stats"><div><strong>4.0</strong><span>GPA / KNOWLEDGE STAT</span></div><div><strong>450+</strong><span>TUTORING HOURS</span></div><div><strong data-catch-count>0 / 4</strong><span>PROJECTS CAUGHT</span></div></div>
       </section>
     <section id="projects" class="game-panel">
@@ -194,6 +200,34 @@
       </div>
       <div class="pixel-box link-cable"><div><span class="eyebrow">↔ / Link Cable</span><h3>Want to team up?</h3><p>No trading evolutions required.</p></div><div class="button-row"><a class="game-button" href="mailto:joshj.jeffrey@gmail.com">Send a message</a><a class="game-button" href="https://www.linkedin.com/in/jeffreyjone/" target="_blank" rel="noopener">LinkedIn ↗</a><a class="game-button" href="https://github.com/Jeffjone" target="_blank" rel="noopener">GitHub ↗</a></div></div>
     </section>
+
+      <section id="signdex" class="game-panel">
+        <div class="section-head"><div class="eyebrow">006 / The visitor’s guild</div><h2>Sign the SignDex.</h2><p>Every trainer has a story. Leave your mark in the guestbook, and let your favorites design your signature.</p></div>
+        <div class="signdex-intro pixel-box"><span class="signdex-book-icon" aria-hidden="true">✎</span><div><strong>Gotta meet ’em all.</strong><p>Your Pokémon sets the palette. Your game sets the route. Your series sets the title. The signature is all you.</p></div></div>
+        <p id="signdex-connection" class="signdex-notice" role="status">SignDex needs JavaScript to design and submit a signature.</p>
+        <div class="signdex-workshop">
+          <form id="signdex-form" class="pixel-box" novalidate>
+            <div class="box-caption">YOUR TRAINER DETAILS <span>01 / 02</span></div>
+            <p class="form-guidance">Fields marked * are required. A nickname is welcome; share only what you want in the public book.</p>
+            <div class="signature-field"><label for="signature-name">Display name / nickname *</label><input id="signature-name" name="name" maxlength="40" autocomplete="nickname" required aria-describedby="error-name"><span class="field-error" id="error-name"></span></div>
+            <div class="signature-field"><label for="signature-work">Work or education <span>(optional)</span></label><input id="signature-work" name="work" maxlength="80" placeholder="e.g. Student · UT Dallas" aria-describedby="error-work"><span class="field-error" id="error-work"></span></div>
+            <div class="signature-field"><label for="signature-city">City <span>(optional)</span></label><input id="signature-city" name="city" maxlength="60" autocomplete="address-level2" placeholder="e.g. Plano, TX" aria-describedby="error-city"><span class="field-error" id="error-city"></span></div>
+            <fieldset><legend>YOUR POKÉMON STORY <span>02 / 02</span></legend>
+              <div class="signature-field"><label for="signature-pokemon">Who’s your favorite Pokémon? *</label><input id="signature-pokemon" name="pokemon" list="signdex-pokemon-options" autocomplete="off" required placeholder="Start typing a Pokémon’s name…" aria-describedby="pokemon-help error-pokemon"><datalist id="signdex-pokemon-options"></datalist><small id="pokemon-help">Choose a species from the suggestions. Each has its own type palette.</small><span class="field-error" id="error-pokemon"></span></div>
+              <div class="signature-field"><label for="signature-game">Favorite Pokémon game? *</label><select id="signature-game" name="game" required aria-describedby="error-game"><option value="">Choose your adventure</option></select><span class="field-error" id="error-game"></span></div>
+              <div class="signature-field"><label for="signature-series">Favorite Pokémon animated series? *</label><select id="signature-series" name="series" required aria-describedby="error-series"><option value="">Choose your chapter</option></select><span class="field-error" id="error-series"></span></div>
+            </fieldset>
+            <div class="signature-field"><label for="signature-message">Leave a little message <span>(optional)</span></label><textarea id="signature-message" name="message" rows="3" maxlength="200" placeholder="A hello, a favorite memory, or a good luck for the next quest…" aria-describedby="message-help error-message"></textarea><small id="message-help">Keep it kind. No profanity, insults, slurs, or links. <span id="signature-characters">0 / 200</span></small><span class="field-error" id="error-message"></span></div>
+            <div class="signature-trap" aria-hidden="true"><label for="signature-website">Leave this field empty</label><input id="signature-website" name="website" tabindex="-1" autocomplete="off"></div>
+            <div class="signature-consent"><input type="checkbox" id="signature-consent" name="consent" required aria-describedby="error-consent"><label for="signature-consent">I agree to share the details above in the public guestbook after review. *</label></div><span class="field-error" id="error-consent"></span>
+            <p class="form-guidance">Submissions are checked for offensive language and reviewed before appearing publicly. No email, account, or exact address needed.</p>
+            <button class="game-button primary" type="submit" id="signature-submit" disabled>SignDex is connecting…</button>
+            <p id="signature-result" role="status" tabindex="-1"></p>
+          </form>
+          <aside class="signature-preview-area" aria-label="Your signature preview"><div class="box-caption">YOUR SIGNATURE <span>LIVE PREVIEW</span></div><div id="signature-preview"></div><p class="form-guidance">The pixel seal and edition ID make your card one of a kind. Change your favorites to see it evolve.</p></aside>
+        </div>
+        <section class="signature-book" aria-labelledby="signature-book-title"><div class="signature-book-heading"><div><span class="eyebrow">The digital signature book</span><h3 id="signature-book-title">Trainers who stopped by.</h3></div><button class="small-button" id="signature-refresh" disabled>Refresh book</button></div><p id="signature-book-status" role="status">The shared book has not been connected yet.</p><div id="signature-entries" class="signature-entries"></div><button class="game-button" id="signature-more" hidden>Turn the page →</button></section>
+      </section>
     </main>
   </div>
   <footer class="game-footer"><span>© <span id="year"></span> Jeffrey Jone</span><span>BUILT WITH CURIOSITY. SAVED WITH LOVE.</span><span>Independent fan-inspired portfolio.</span></footer>

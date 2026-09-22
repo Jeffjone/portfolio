@@ -4,9 +4,15 @@
   "private": true,
   "description": "A retro RPG portfolio with a collectible Project Dex",
   "scripts": {
-    "test": "node tests/browser.cjs"
+    "test": "node --test tests/signdex-api.test.mjs && node tests/browser.cjs && node tests/signdex-browser.cjs",
+    "signdex:dev": "node server/signdex/local.mjs",
+    "signdex:review": "node scripts/signdex-review.mjs"
   },
   "devDependencies": {
-    "playwright": "1.63.0"
+    "playwright": "1.63.0",
+    "wrangler": "4.136.1"
+  },
+  "engines": {
+    "node": ">=22.13"
   }
 }

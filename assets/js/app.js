@@ -5,7 +5,7 @@
   const portfolio = document.getElementById('portfolio');
   const panels = [...document.querySelectorAll('.game-panel')];
   const dialog = document.getElementById('game-dialog');
-  const labels = { home: 'PALLET? NOPE. PLANO, TX.', projects: 'PROJECT LAB / THE PROJECT DEX', experience: 'ROUTE 002 / QUEST LOG', awards: 'BADGE GYM / BATTLE RECORD', skills: 'TRAINING GROUND / MOVE SET', room: 'HOME / OFF-DUTY SIDE QUESTS' };
+  const labels = { home: 'PALLET? NOPE. PLANO, TX.', projects: 'PROJECT LAB / THE PROJECT DEX', experience: 'ROUTE 002 / QUEST LOG', awards: 'BADGE GYM / BATTLE RECORD', skills: 'TRAINING GROUND / MOVE SET', room: 'HOME / OFF-DUTY SIDE QUESTS', signdex: 'VISITOR’S GUILD / SIGNDEX' };
   let entered = false;
   let opening = false;
   let toastTimer;
