@@ -1,3 +1,35 @@
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const encounter = document.getElementById('encounter');
+const portfolio = document.getElementById('portfolio');
+const enterButton = document.getElementById('enter-portfolio');
+let opening = false;
+
+document.body.classList.add('js-enabled', 'encounter-active');
+encounter.hidden = false;
+portfolio.inert = true;
+
+function finishEncounter() {
+  encounter.hidden = true;
+  portfolio.inert = false;
+  document.body.classList.remove('encounter-active');
+  document.body.classList.add('portfolio-entered');
+  const destination = document.getElementById(window.location.hash.slice(1));
+  document.getElementById('portfolio-heading').focus({ preventScroll: true });
+  if (destination) destination.scrollIntoView({ behavior: 'instant' });
+  else window.scrollTo({ top: 0, behavior: 'instant' });
+  startPortfolio();
+}
+
+enterButton.addEventListener('click', () => {
+  if (opening) return;
+  opening = true;
+  enterButton.setAttribute('aria-disabled', 'true');
+  document.getElementById('encounter-status').textContent = 'ENCOUNTER FOUND. WELCOME, TRAINER.';
+  encounter.classList.add('is-opening');
+  // A timer also completes the transition if CSS animations are interrupted.
+  window.setTimeout(finishEncounter, reducedMotion.matches ? 0 : 1600);
+});
+
 document.getElementById('year').textContent = new Date().getFullYear();
 
 const words = ['use move: BUILD', 'use move: RESEARCH', 'use move: LEARN'];
@@ -11,13 +43,24 @@ function typeLoop() {
   if (deleting && ci < 0) { deleting = false; ci = 0; wi = (wi + 1) % words.length; delay = 300; }
   setTimeout(typeLoop, delay);
 }
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) typeLoop();
-else target.textContent = words[0];
+function startPortfolio() {
+  if (!reducedMotion.matches) typeLoop();
+  else target.textContent = words[0];
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: .12 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
 
 const filters = document.querySelectorAll('.filter');
 const cards = document.querySelectorAll('.project-card');

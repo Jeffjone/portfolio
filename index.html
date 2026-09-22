@@ -12,6 +12,33 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="encounter" id="encounter" hidden>
+    <div class="encounter-topline"><span>JJ / TRAINER FILE</span><span>NO. 150 · PSYCHIC</span></div>
+    <div class="encounter-content">
+      <p class="encounter-label">A new encounter awaits</p>
+      <h1 class="encounter-title">Every journey starts<br>with a little <em>curiosity.</em></h1>
+      <div class="ball-stage">
+        <div class="orbit orbit-one" aria-hidden="true"></div>
+        <div class="orbit orbit-two" aria-hidden="true"></div>
+        <div class="energy-burst" aria-hidden="true"></div>
+        <button class="pokeball-button" id="enter-portfolio" aria-label="Open Poké Ball and enter Jeffrey Jone’s portfolio" aria-describedby="encounter-hint">
+          <span class="pokeball-float" aria-hidden="true">
+            <span class="pokeball-spin">
+              <span class="ball-half ball-top"></span>
+              <span class="ball-half ball-bottom"></span>
+              <span class="ball-button"><span></span></span>
+            </span>
+          </span>
+        </button>
+        <div class="ball-shadow" aria-hidden="true"></div>
+      </div>
+      <p class="encounter-hint" id="encounter-hint">Click the Poké Ball to begin</p>
+      <p class="encounter-status" id="encounter-status" role="status">YOUR NEXT DISCOVERY IS ONE CLICK AWAY</p>
+    </div>
+    <div class="encounter-bottomline"><span>JEFFREY JONE</span><span>DEVELOPER · RESEARCHER · COMPETITOR</span></div>
+  </div>
+
+  <div id="portfolio">
   <header class="nav shell">
     <nav class="nav-inner" aria-label="Primary navigation">
       <a class="brand" href="#top" aria-label="Jeffrey Jone home">
@@ -34,7 +61,7 @@
       <div class="hero-grid">
         <div>
           <div class="eyebrow">Psychic-type developer · CS · ML · Systems</div>
-          <h1>Jeffrey<br><span class="accent">Jone.</span></h1>
+          <h1 id="portfolio-heading" tabindex="-1">Jeffrey<br><span class="accent">Jone.</span></h1>
           <p class="hero-copy">I’m a <strong>CS² Honors student at UT Dallas</strong> building at the intersection of software systems, machine learning, and computational research. I like problems where code has to be both <strong>technically rigorous and practically useful</strong>.</p>
           <div class="hero-actions">
             <a class="btn primary" href="#projects">Open Pokédex <span>↘</span></a>
@@ -198,6 +225,7 @@
   <footer class="footer">
     <div class="shell footer-inner"><span>© <span id="year"></span> Jeffrey Jone</span><span class="mono">Plano, TX · CS / ML / Systems · PSYCHIC</span></div>
   </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>

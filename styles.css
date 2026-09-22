@@ -419,8 +419,8 @@ section { padding: 84px 0; scroll-margin-top: 100px; }
 .footer { border-top:1px solid rgba(51,38,56,.1); padding:25px 0 40px; color:var(--muted); font-size:.79rem; }
 .footer-inner { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
 
-.reveal { opacity:0; transform:translateY(18px); transition: opacity .6s ease, transform .6s ease; }
-.reveal.visible { opacity:1; transform:none; }
+.js-enabled .reveal { opacity:0; transform:translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.js-enabled .reveal.visible { opacity:1; transform:none; }
 .hidden-card { display:none; }
 
 .psychic-mode .card,
@@ -489,3 +489,173 @@ section { padding: 84px 0; scroll-margin-top: 100px; }
 .stat-fill-82 { --w: 82%; }
 
 .education-name { color: var(--plum-ink); }
+
+/* The entrance is progressively enhanced: without JavaScript the portfolio is visible. */
+.encounter-active { overflow: hidden; }
+.encounter-active #portfolio { visibility: hidden; }
+.encounter[hidden] { display: none; }
+.encounter {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: auto;
+  padding: clamp(20px, 4vw, 48px);
+  color: var(--plum-ink);
+  background:
+    radial-gradient(ellipse at 50% 48%, #f9f4fc 0%, #e8ddec 42%, transparent 72%),
+    linear-gradient(140deg, #d5c5df, #eee7f0 55%, #c8b6d1);
+  isolation: isolate;
+}
+.encounter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .3;
+  background-image: radial-gradient(var(--plum-deep) .7px, transparent .7px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse, transparent 30%, black);
+}
+.encounter-topline, .encounter-bottomline {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font: 400 .65rem/1.6 'DM Mono', monospace;
+  letter-spacing: .12em;
+  color: var(--plum-deep);
+}
+.encounter-topline { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.encounter-bottomline { padding-top: 16px; border-top: 1px solid var(--line); }
+.encounter-content { text-align: center; margin: auto; padding: 28px 0; }
+.encounter-label {
+  margin: 0 0 18px;
+  font: 500 .66rem/1.5 'DM Mono', monospace;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--plum-deep);
+}
+.encounter-title {
+  margin: 0 auto;
+  font-size: clamp(2rem, 4.8vw, 4.4rem);
+  line-height: 1.08;
+  letter-spacing: -.065em;
+  font-weight: 600;
+}
+.encounter-title em { font-family: Georgia, serif; color: var(--plum-deep); font-weight: 400; }
+.ball-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(440px, 82vw);
+  height: clamp(250px, 39vh, 370px);
+  margin: 8px auto 0;
+}
+.pokeball-button {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: clamp(156px, 23vw, 218px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: scale .3s ease;
+}
+.pokeball-button:hover { scale: 1.07; }
+.pokeball-button:focus-visible { outline: 2px solid var(--plum-deep); outline-offset: 20px; }
+.pokeball-float, .pokeball-spin { position: relative; display: block; width: 100%; height: 100%; }
+.pokeball-float { animation: ball-float 4s ease-in-out infinite; }
+.pokeball-spin { animation: ball-spin 12s linear infinite; }
+.ball-half {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  border: 3px solid #35263c;
+  box-shadow: inset -15px 0 25px #241c2838;
+}
+.ball-top {
+  top: 0;
+  border-radius: 120px 120px 0 0;
+  border-bottom-width: 7px;
+  background: radial-gradient(ellipse at 30% 30%, #f6d1e9, #bb76ab 35%, #8c4e85 75%, #593653);
+}
+.ball-top::after {
+  content: '';
+  position: absolute;
+  width: 38%;
+  height: 20%;
+  top: 20%;
+  left: 17%;
+  border-radius: 50%;
+  background: #fff8;
+  filter: blur(4px);
+  transform: rotate(-25deg);
+}
+.ball-bottom {
+  bottom: 0;
+  border-radius: 0 0 120px 120px;
+  border-top-width: 7px;
+  background: radial-gradient(ellipse at 30% 10%, #fff, #ede7f2 40%, #b4a4bf 85%, #786981);
+}
+.ball-button {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  top: 50%;
+  left: 50%;
+  width: 29%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 7px solid #35263c;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fff, #d1c2da);
+  box-shadow: 0 3px 7px #241c2840;
+}
+.ball-button span { width: 63%; aspect-ratio: 1; border: 1px solid #ab90b6; border-radius: 50%; background: #faf2ff; box-shadow: 0 0 16px #f4d5ff; }
+.ball-shadow { position: absolute; bottom: 12%; width: 38%; height: 16px; border-radius: 50%; background: #65416d33; filter: blur(9px); animation: shadow-breathe 4s ease-in-out infinite; }
+.orbit { position: absolute; width: 85%; aspect-ratio: 1; border: 1px solid #9871a335; border-radius: 50%; pointer-events: none; }
+.orbit::after { content: ''; position: absolute; top: 14%; left: 14%; width: 6px; height: 6px; border-radius: 50%; background: #b38bb3; box-shadow: 0 0 16px #ac78c1; }
+.orbit-one { transform: rotateX(60deg) rotate(-25deg); animation: orbit-drift 16s linear infinite; }
+.orbit-two { width: 72%; border-style: dashed; transform: rotateX(55deg) rotate(35deg); animation: orbit-drift 22s linear infinite reverse; }
+.encounter-hint { font-size: .88rem; margin: 0 0 12px; font-weight: 600; }
+.encounter-status { margin: 0; color: var(--plum-deep); font: 400 .58rem/1.7 'DM Mono', monospace; letter-spacing: .12em; }
+.energy-burst { position: absolute; z-index: 2; width: 100px; height: 100px; border-radius: 50%; background: #f8f5fa; box-shadow: 0 0 60px 30px #f6e2ff; opacity: 0; pointer-events: none; }
+.is-opening { pointer-events: none; animation: entrance-fade .5s ease 1.1s both; }
+.is-opening .pokeball-button { scale: 1; }
+.is-opening .pokeball-float, .is-opening .pokeball-spin { animation-play-state: paused; }
+.is-opening .ball-top { animation: ball-open-top .9s cubic-bezier(.3, 0, .2, 1) both; }
+.is-opening .ball-bottom { animation: ball-open-bottom .9s cubic-bezier(.3, 0, .2, 1) both; }
+.is-opening .ball-button { transition: opacity .25s; opacity: 0; }
+.is-opening .energy-burst { animation: release-energy 1.3s ease-in .15s both; }
+.is-opening .orbit, .is-opening .ball-shadow { transition: opacity .4s; opacity: 0; }
+.portfolio-entered .hero-grid > *, .portfolio-entered .nav { animation: portfolio-arrive .85s cubic-bezier(.2, .7, .2, 1) both; }
+.portfolio-entered .hero-grid > :last-child { animation-delay: .15s; }
+#portfolio-heading:focus { outline: none; }
+@keyframes ball-spin { to { transform: rotate(360deg); } }
+@keyframes ball-float { 50% { transform: translateY(-15px); } }
+@keyframes shadow-breathe { 50% { transform: scale(.75); opacity: .5; } }
+@keyframes orbit-drift { to { transform: rotateX(60deg) rotate(335deg); } }
+@keyframes ball-open-top { to { transform: translateY(-95px) rotate(-18deg); opacity: 0; } }
+@keyframes ball-open-bottom { to { transform: translateY(95px) rotate(18deg); opacity: 0; } }
+@keyframes release-energy { 0% { opacity: 0; transform: scale(.4); } 25% { opacity: 1; } 100% { opacity: 1; transform: scale(32); } }
+@keyframes entrance-fade { to { opacity: 0; } }
+@keyframes portfolio-arrive { from { opacity: 0; translate: 0 22px; } to { opacity: 1; translate: 0 0; } }
+@media (max-width: 560px) {
+  .encounter-topline, .encounter-bottomline { font-size: .53rem; letter-spacing: .05em; }
+  .encounter-bottomline { flex-direction: column; align-items: center; gap: 4px; }
+  .encounter-content { padding: 24px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js-enabled .reveal { opacity: 1; transform: none; }
+  .pokeball-button:hover { scale: 1; }
+}
