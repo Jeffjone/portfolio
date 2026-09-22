@@ -6,8 +6,9 @@ if (!base || !token) throw new Error('Set SIGNDEX_API and SIGNDEX_ADMIN_TOKEN in
 const url = new URL(base);
 if (url.protocol !== 'https:' && !(url.protocol === 'http:' && ['localhost','127.0.0.1'].includes(url.hostname))) throw new Error('Use HTTPS for the deployed API.');
 if (!['list','approve','reject','delete'].includes(action)) throw new Error('Usage: list | approve ID | reject ID | delete ID');
+if (action === 'list' && id && !['pending','approved','rejected'].includes(id)) throw new Error('List status must be pending, approved, or rejected.');
 if (action !== 'list' && !/^[0-9a-f-]{36}$/i.test(id || '')) throw new Error('Supply the full signature ID.');
-const response = await fetch(`${base}/admin/signatures${action === 'list' ? '' : '/' + id}`,{
+const response = await fetch(`${base}/admin/signatures${action === 'list' ? '?status=' + (id || 'pending') : '/' + id}`,{
   method:action === 'list' ? 'GET' : action === 'delete' ? 'DELETE' : 'PATCH',
   headers:{ Authorization:`Bearer ${token}`,'Content-Type':'application/json' },
   ...(['approve','reject'].includes(action) ? { body:JSON.stringify({ status:action === 'approve' ? 'approved' : 'rejected' }) } : {})

@@ -5,7 +5,7 @@ import { fileURLToPath,pathToFileURL } from 'node:url';
 import { Readable } from 'node:stream';
 import worker from './worker.mjs';
 import { openDatabase } from './sqlite-adapter.mjs';
-const root = fileURLToPath(new URL('../../',import.meta.url));
+const root = path.resolve(fileURLToPath(new URL('../../',import.meta.url)));
 const types = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', '.png':'image/png', '.jpg':'image/jpeg', '.svg':'image/svg+xml', '.pdf':'application/pdf' };
 export async function startLocalServer({ port = 8788, database = ':memory:' } = {}) {
   const DB = openDatabase(database);

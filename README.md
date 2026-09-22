@@ -50,6 +50,14 @@ The Plano clock uses `America/Chicago`, including daylight-saving time. The weat
 
 Reference documentation: [Spotify embeds](https://developer.spotify.com/documentation/embeds), [Open-Meteo](https://open-meteo.com/en/docs).
 
+## SignDex guestbook
+
+SignDex adds required Pokémon preferences, optional profile details, unique themed signature cards, and a moderated shared book. Its prepared backend uses Cloudflare Workers + D1. Until the deployed API is connected, the static site clearly labels SignDex as preview-only.
+
+Run the complete local feature with `npm run signdex:dev` (Node 22.13+), then open `http://127.0.0.1:8788/#signdex`. See [SignDex setup and moderation](docs/signdex.md) for Cloudflare provisioning, the review commands, API behavior, and test details.
+
+Source files: `assets/js/signdex*.js`, `assets/css/signdex.css`, `server/signdex/`, and `scripts/signdex-review.mjs`. The local `.signdex-data/` database and private environment files are excluded from Git.
+
 ## Browser checks
 
 ```sh
