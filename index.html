@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Jeffrey Jone — Computer Science student, developer, researcher, and competitive programmer." />
-  <meta name="theme-color" content="#DBD4E0" />
-  <title>Jeffrey Jone — CS Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore Jeffrey Jone’s retro RPG portfolio: CS at UT Dallas, software systems, machine learning, research, and a few side quests.">
+  <meta name="theme-color" content="#6e5885">
+  <title>Jeffrey Jone · Portfolio Version</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/entrance.css">
+  <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/game.js" defer></script>
+  <script src="assets/js/integrations.js" defer></script>
 </head>
 <body>
   <div class="encounter" id="encounter" hidden>
     <div class="encounter-topline"><span>JJ / TRAINER FILE</span><span>NO. 150 · PSYCHIC</span></div>
     <div class="encounter-content">
-      <p class="encounter-label">A new encounter awaits</p>
-      <h1 class="encounter-title">Every journey starts<br>with a little <em>curiosity.</em></h1>
+      <p class="encounter-label">A wild developer appeared!</p>
+      <h1 class="encounter-title">JEFFREY JONE<br><em>PORTFOLIO VERSION</em></h1>
       <div class="ball-stage">
         <div class="orbit orbit-one" aria-hidden="true"></div>
         <div class="orbit orbit-two" aria-hidden="true"></div>
@@ -32,79 +37,52 @@
         </button>
         <div class="ball-shadow" aria-hidden="true"></div>
       </div>
-      <p class="encounter-hint" id="encounter-hint">Click the Poké Ball to begin</p>
-      <p class="encounter-status" id="encounter-status" role="status">YOUR NEXT DISCOVERY IS ONE CLICK AWAY</p>
+      <p class="encounter-hint" id="encounter-hint">Click the Poké Ball · Start your adventure</p>
+      <p class="encounter-status" id="encounter-status" role="status">GOTTA CATCH ’EM ALL. PROJECTS, THAT IS.</p>
     </div>
     <div class="encounter-bottomline"><span>JEFFREY JONE</span><span>DEVELOPER · RESEARCHER · COMPETITOR</span></div>
   </div>
 
-  <div id="portfolio">
-  <header class="nav shell">
-    <nav class="nav-inner" aria-label="Primary navigation">
-      <a class="brand" href="#top" aria-label="Jeffrey Jone home">
-        <span class="poke-mark" aria-hidden="true"></span>
-        <span class="brand-copy"><small>Trainer File</small><span>jeffreyjone.dev</span></span>
-      </a>
-      <div class="nav-links">
-        <a href="#projects">Projects</a>
-        <a href="#experience">Experience</a>
-        <a href="#awards">Awards</a>
-        <a href="#about">About</a>
-        <button class="mode-toggle" id="mode-toggle" aria-label="Toggle psychic glow mode" title="Psychic glow">✦</button>
-        <a class="nav-cta" href="mailto:joshj.jeffrey@gmail.com">Contact</a>
-      </div>
-    </nav>
-  </header>
 
-  <main id="top">
-    <section class="hero shell">
-      <div class="hero-grid">
-        <div>
-          <div class="eyebrow">Psychic-type developer · CS · ML · Systems</div>
-          <h1 id="portfolio-heading" tabindex="-1">Jeffrey<br><span class="accent">Jone.</span></h1>
-          <p class="hero-copy">I’m a <strong>CS² Honors student at UT Dallas</strong> building at the intersection of software systems, machine learning, and computational research. I like problems where code has to be both <strong>technically rigorous and practically useful</strong>.</p>
-          <div class="hero-actions">
-            <a class="btn primary" href="#projects">Open Pokédex <span>↘</span></a>
-            <a class="btn" href="Resume.pdf" target="_blank" rel="noopener">Trainer résumé <span>↗</span></a>
-            <a class="btn" href="https://www.linkedin.com/in/jeffreyjone/" target="_blank" rel="noopener">LinkedIn <span>↗</span></a>
-          </div>
+<div id="portfolio">
+  <a class="skip-link" href="#game-content">Skip to game content</a>
+  <header class="game-header"><a class="wordmark" href="#home" data-route="home"><span class="mini-ball" aria-hidden="true"></span> JEFFREY JONE <span class="version">PORTFOLIO VERSION</span></a><div class="header-actions"><span class="online-dot">PLAYER 01</span><button id="sound-toggle" class="small-button" aria-pressed="false">Sound: OFF</button></div></header>
+  <div class="game-layout">
+    <aside class="sidebar">
+      <div class="trainer-summary pixel-box"><div class="box-caption">TRAINER CARD <span>№ 001</span></div><button class="portrait-button" data-profile aria-label="View Jeffrey’s actual portrait and short profile"><img src="assets/images/jeffrey-pixel.png" alt="8-bit-style portrait of Jeffrey with curly hair and glasses" width="192" height="192"><span>8-BIT JEFFREY <span aria-hidden="true">↗</span></span></button><h2>JEFFREY JONE</h2><p>CS² Honors · UT Dallas</p><div class="type-tags"><span>PSYCHIC / ML</span><span>STEEL / SYSTEMS</span></div><div class="hp-label"><span>CURIOSITY</span><span>99 / 99</span></div><div class="hp-bar"><i></i></div></div>
+      <nav class="game-menu pixel-box" aria-label="Portfolio locations"><span class="box-caption">WHERE TO?</span>
+        <a href="#home" data-route="home" aria-current="page"><span>⌂</span> Home town <small>01</small></a>
+        <a href="#projects" data-route="projects"><span>▣</span> Project Dex <small>02</small></a>
+        <a href="#experience" data-route="experience"><span>⚑</span> Quest log <small>03</small></a>
+        <a href="#awards" data-route="awards"><span>✧</span> Badge case <small>04</small></a>
+        <a href="#skills" data-route="skills"><span>ϟ</span> Move set <small>05</small></a>
+        <a href="#room" data-route="room"><span>♫</span> My room <small>06</small></a>
+      </nav>
+      <a class="resume-link" href="assets/documents/Resume.pdf" target="_blank" rel="noopener">↓ Open trainer résumé</a>
+    </aside>
+    <main id="game-content" tabindex="-1">
+      <div class="screen-top"><span id="location-label">PALLET? NOPE. PLANO, TX.</span><span class="save-light">● GAME READY</span></div>
+      <section id="home" class="game-panel">
+        <div class="home-heading"><div><span class="eyebrow">A wild developer appeared!</span><h1 id="portfolio-heading" tabindex="-1">Hello, world.<br>Meet your next <span>teammate.</span></h1></div><span class="edition-stamp">PLAYER<br>01<br>★</span></div>
+        <div class="world-map" aria-label="Portfolio town map">
+          <div class="map-grid" aria-hidden="true"></div><div class="map-water" aria-hidden="true"></div><div class="map-path path-horizontal" aria-hidden="true"></div><div class="map-path path-vertical" aria-hidden="true"></div><div class="map-trees" aria-hidden="true"></div>
+          <span class="map-sign">ROUTE 001 · THE BEGINNING</span>
+          <a class="map-place place-lab" href="#projects" data-route="projects"><span class="building lab" aria-hidden="true"><i></i></span><span class="place-label">PROJECT LAB</span></a>
+          <a class="map-place place-gym" href="#awards" data-route="awards"><span class="building gym" aria-hidden="true"><i></i></span><span class="place-label">BADGE GYM</span></a>
+          <a class="map-place place-room" href="#room" data-route="room"><span class="building house" aria-hidden="true"><i></i></span><span class="place-label">MY ROOM ♫</span></a>
+          <button class="map-trainer" data-profile aria-label="Meet Jeffrey"><img src="assets/images/jeffrey-pixel.png" width="48" height="48" alt=""><span>!</span></button>
+          <span class="map-tip">SELECT A LOCATION TO EXPLORE</span>
         </div>
-
-        <aside class="trainer-card" aria-label="Developer trainer card">
-          <div class="trainer-top">
-            <div class="trainer-id">TRAINER ID · JJ-2030</div>
-            <div class="type-pill"><i></i> Psychic / CS</div>
-          </div>
-          <div class="avatar-zone" aria-hidden="true">
-            <div class="avatar-monogram">JJ</div>
-          </div>
-          <div class="trainer-name">
-            <div><h2>Jeffrey Jone</h2><span>Developer · Researcher · Competitor</span></div>
-            <span>LV. 04</span>
-          </div>
-          <div class="mini-stats">
-            <div class="mini-stat"><b>4.0</b><small>GPA</small></div>
-            <div class="mini-stat"><b>#1</b><small>BPA C++</small></div>
-            <div class="mini-stat"><b>Gold</b><small>USACO</small></div>
-          </div>
-          <div class="card-command"><span class="prompt">PSYCHIC://</span> <span id="typed-command"></span><span class="cursor"></span></div>
-        </aside>
-      </div>
-
-      <div class="stats reveal" aria-label="Quick statistics">
-        <div class="stat"><b>4.0</b><span>UT Dallas GPA</span><div class="stat-bar"><i class="stat-fill-100"></i></div></div>
-        <div class="stat"><b>#1</b><span>BPA C++ National, 2025</span><div class="stat-bar"><i class="stat-fill-100"></i></div></div>
-        <div class="stat"><b>450+</b><span>Hours of paid tutoring</span><div class="stat-bar"><i class="stat-fill-88"></i></div></div>
-        <div class="stat"><b>2023→</b><span>ML / backend development</span><div class="stat-bar"><i class="stat-fill-82"></i></div></div>
-      </div>
-    </section>
-
-    <section id="projects" class="shell reveal">
+        <div class="dialogue-box"><div class="speaker">JEFFREY</div><p id="welcome-dialogue" aria-live="polite">Hey, trainer! I’m a CS² Honors student at UT Dallas. I build software, train models, and occasionally touch grass. The tall kind, obviously.</p><button class="dialogue-next" id="next-dialogue" aria-label="Next dialogue">▼</button></div>
+        <div class="home-actions"><a href="#projects" data-route="projects" class="game-button primary">▶ Explore Project Dex</a><button class="game-button" id="quiz-open">? Who’s that project?</button></div>
+        <div class="home-stats"><div><strong>4.0</strong><span>GPA / KNOWLEDGE STAT</span></div><div><strong>450+</strong><span>TUTORING HOURS</span></div><div><strong data-catch-count>0 / 4</strong><span>PROJECTS CAUGHT</span></div></div>
+      </section>
+    <section id="projects" class="game-panel">
       <div class="section-head">
-        <div><div class="eyebrow">001 / Project Pokédex</div><h2>Selected encounters.</h2></div>
-        <p>Systems, machine learning, and research projects — catalogued like a Pokédex, built for real constraints.</p>
+        <div><div class="eyebrow">001 / Project Pokédex</div><h2>Gotta catch ’em all.</h2></div>
+        <p>Four projects in the tall grass. Inspect each encounter and add it to your Project Dex.</p>
       </div>
-      <div class="dex-frame">
+      <p class="collection-line" role="status">DEX COMPLETION: <span data-catch-count>0 / 4</span> <span id="save-status">Saved on this device.</span></p><div class="dex-frame">
         <div class="project-controls" aria-label="Project filters">
           <button class="filter active" data-filter="all">All types</button>
           <button class="filter" data-filter="ml">Psychic / ML</button>
@@ -118,32 +96,31 @@
             <h3>Autonomous Drone Navigation</h3>
             <p>Reinforcement-learning navigation with real-time LiDAR path planning, onboard C++/ROS control, and a custom Gazebo simulation for variable wind, terrain, and obstacles.</p>
             <div class="chips"><span class="chip">C++</span><span class="chip">ROS</span><span class="chip">RL</span><span class="chip">LiDAR</span><span class="chip">Gazebo</span></div>
-          </article>
+          <button class="game-button encounter-project" data-project-id="1">Inspect encounter →</button></article>
           <article class="card project-card" data-category="systems">
             <div class="card-top"><div class="card-num">#002 · NETWORK SYSTEM</div><span class="project-type"></span></div>
             <h3>Disaster-Zone Communication Protocol</h3>
             <p>A local peer-to-peer network using UDP broadcasts and dynamic routing tables, with Raspberry Pi / ESP32 firmware for relaying, GPS stamping, and encrypted offline messaging.</p>
             <div class="chips"><span class="chip">UDP</span><span class="chip">Embedded</span><span class="chip">ESP32</span><span class="chip">Networking</span></div>
-          </article>
+          <button class="game-button encounter-project" data-project-id="2">Inspect encounter →</button></article>
           <article class="card project-card" data-category="research ml">
             <div class="card-top"><div class="card-num">#003 · COMPUTATIONAL RESEARCH</div><span class="project-type"></span></div>
             <h3>Computational Biomechanics</h3>
             <p>Long-term independent research modeling biomechanical interactions between spinal tumor growth and cardiovascular strain using simulation and numerical methods.</p>
             <div class="chips"><span class="chip">Simulation</span><span class="chip">Numerical Methods</span><span class="chip">Research</span></div>
-          </article>
+          <button class="game-button encounter-project" data-project-id="3">Inspect encounter →</button></article>
           <article class="card project-card" data-category="web research">
             <div class="card-top"><div class="card-num">#004 · WEB PLATFORM</div><span class="project-type"></span></div>
             <h3>Neuroscope</h3>
             <p>Led development of a React + Node.js web platform for neurodiversity research and education, including backend services, data structures, interface components, and researcher workflows.</p>
             <div class="chips"><span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Full Stack</span><span class="chip">Research</span></div>
-          </article>
+          <button class="game-button encounter-project" data-project-id="4">Inspect encounter →</button></article>
         </div>
       </div>
     </section>
-
-    <section id="experience" class="shell reveal">
+    <section id="experience" class="game-panel">
       <div class="section-head">
-        <div><div class="eyebrow">002 / Journey Log</div><h2>Build. Lead. Level up.</h2></div>
+        <div><div class="eyebrow">002 / Quest Log</div><h2>Experience points.</h2></div>
         <p>Work spanning ML development, competitive programming leadership, research, and technical instruction.</p>
       </div>
       <div class="timeline">
@@ -169,10 +146,9 @@
         </div>
       </div>
     </section>
-
-    <section id="awards" class="shell reveal">
+    <section id="awards" class="game-panel">
       <div class="section-head">
-        <div><div class="eyebrow">003 / Battle Record</div><h2>Competitive highlights.</h2></div>
+        <div><div class="eyebrow">003 / Badge Case</div><h2>A few gym victories.</h2></div>
         <p>Programming, mathematics, science research, and business results earned under pressure.</p>
       </div>
       <div class="awards-grid">
@@ -188,10 +164,9 @@
         </aside>
       </div>
     </section>
-
-    <section id="skills" class="shell reveal">
+    <section id="skills" class="game-panel">
       <div class="section-head">
-        <div><div class="eyebrow">004 / Move Set</div><h2>Technical abilities.</h2></div>
+        <div><div class="eyebrow">004 / Move Set</div><h2>Choose your move.</h2></div>
       </div>
       <div class="skills-wrap">
         <div class="skill-box"><h3>LANGUAGES</h3><p>C++ · Python · JavaScript · TypeScript · Java · Julia · SQL · HTML</p></div>
@@ -200,33 +175,31 @@
         <div class="skill-box"><h3>SPECIALTIES</h3><p>Machine Learning · Full-Stack · Systems Programming · QA Analysis</p></div>
       </div>
     </section>
-
-    <section id="about" class="shell reveal">
+    <section id="room" class="game-panel">
       <div class="section-head">
-        <div><div class="eyebrow">005 / Trainer Notes</div><h2>More than one type.</h2></div>
+        <div><div class="eyebrow">005 / Off-duty</div><h2>Welcome to my room.</h2></div>
       </div>
       <div class="about-grid">
         <div class="about-panel"><h3>Education</h3><p><strong class="education-name">University of Texas at Dallas</strong><br>B.S. Computer Science · Minor in Business Intelligence & Analytics<br>CS² Honors · 4.0 GPA · Expected May 2030</p></div>
         <div class="about-panel"><h3>What I’m curious about</h3><p>My interests cut across computer science, quantitative work, physics, and hands-on creative projects. I’m especially drawn to software that touches the real world.</p><div class="interest-list"><span class="interest">AI / ML</span><span class="interest">Quant Finance</span><span class="interest">Systems</span><span class="interest">Computational Physics</span><span class="interest">Astronomy</span><span class="interest">Boxing</span><span class="interest">Soccer</span><span class="interest">Mountain Climbing</span><span class="interest">Sketching</span><span class="interest">Carpentry</span></div></div>
       </div>
-    </section>
 
-    <section class="shell">
-      <div class="cta reveal">
-        <h2>Ready for the next encounter?</h2>
-        <div class="hero-actions">
-          <a class="btn primary" href="mailto:joshj.jeffrey@gmail.com">Send a message ↗</a>
-          <a class="btn" href="https://www.linkedin.com/in/jeffreyjone/" target="_blank" rel="noopener">LinkedIn ↗</a>
-        </div>
+      <div class="room-grid">
+        <article class="pixel-box radio"><span class="eyebrow">♫ / Pokégear Radio</span><h3>A soundtrack for the side quests.</h3><p>Find a game soundtrack on Spotify, or tune in with any public playlist, album, or track link.</p>
+          <a class="game-button" href="https://open.spotify.com/search/video%20game%20soundtracks" target="_blank" rel="noopener">Explore Spotify ↗</a>
+          <form id="spotify-form"><label for="spotify-url">Tune the radio with a Spotify share link</label><div class="input-row"><input id="spotify-url" type="url" placeholder="https://open.spotify.com/playlist/…" required><button class="game-button" type="submit">Tune in</button></div></form>
+          <p id="radio-status" role="status">Radio is off. You choose when the music starts.</p><div id="spotify-player"></div>
+        </article>
+        <article class="pixel-box"><span class="eyebrow">⌂ / Home town</span><h3>Plano, Texas</h3><p class="town-clock" id="town-clock">America / Chicago</p><p id="weather-status" role="status">Check the weather before heading into the tall grass.</p><button class="game-button" id="weather-button">Check local weather</button><p class="attribution">Weather by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo ↗</a></p></article>
       </div>
+      <div class="pixel-box link-cable"><div><span class="eyebrow">↔ / Link Cable</span><h3>Want to team up?</h3><p>No trading evolutions required.</p></div><div class="button-row"><a class="game-button" href="mailto:joshj.jeffrey@gmail.com">Send a message</a><a class="game-button" href="https://www.linkedin.com/in/jeffreyjone/" target="_blank" rel="noopener">LinkedIn ↗</a><a class="game-button" href="https://github.com/Jeffjone" target="_blank" rel="noopener">GitHub ↗</a></div></div>
     </section>
-  </main>
-
-  <footer class="footer">
-    <div class="shell footer-inner"><span>© <span id="year"></span> Jeffrey Jone</span><span class="mono">Plano, TX · CS / ML / Systems · PSYCHIC</span></div>
-  </footer>
+    </main>
   </div>
-
-  <script src="script.js"></script>
+  <footer class="game-footer"><span>© <span id="year"></span> Jeffrey Jone</span><span>BUILT WITH CURIOSITY. SAVED WITH LOVE.</span><span>Independent fan-inspired portfolio.</span></footer>
+</div>
+<dialog id="game-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span id="dialog-label">TRAINER FILE</span><button class="small-button" id="close-dialog" aria-label="Close dialog">Close ✕</button></div><div id="dialog-content"></div></dialog>
+<div id="game-toast" class="toast" role="status" hidden></div>
+<noscript><p class="noscript-note">The game controls need JavaScript. You can still browse all portfolio sections and open the résumé.</p></noscript>
 </body>
 </html>

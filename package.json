@@ -1,0 +1,12 @@
+{
+  "name": "jeffrey-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A retro RPG portfolio with a collectible Project Dex",
+  "scripts": {
+    "test": "node tests/browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

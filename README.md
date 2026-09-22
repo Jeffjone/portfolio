@@ -1,54 +1,73 @@
-# Personal Portfolio
+# Jeffrey Jone · Portfolio Version
 
-A responsive personal portfolio website built to showcase my computer science experience, projects, skills, achievements, and interests.
+A Pokémon-inspired, retro RPG portfolio. Open a spinning Poké Ball, explore a clickable town map, collect four projects, play “Who’s that project?”, inspect achievement badges, and meet the trainer behind the pixels.
 
-The site uses a Pokémon-inspired design based on Mewtwo's color palette, featuring:
+## Run locally
 
-* Subtle Purple `#DBD4E0`
-* Matte Plum `#B38BB3`
-* Responsive layouts
-* Interactive UI elements
-* Project and experience sections
-* Resume and LinkedIn links
-* Custom animations and hover effects
+Open `index.html` directly, or serve the project with:
 
-## Technologies Used
+```sh
+python3 -m http.server 8000
+```
 
-* HTML
-* CSS
-* JavaScript
+Visit `http://localhost:8000`. The site has no build step or production dependencies. GitHub Pages can serve it from the repository root.
 
-## Project Structure
+## Structure
 
 ```text
-portfolio/
-├── index.html
-├── Resume.pdf
-├── css/
-│   └── styles.css
-└── js/
-    └── script.js
+index.html                   # Accessible markup and portfolio content
+assets/
+  css/
+    styles.css               # Retro game interface and responsive layouts
+    entrance.css             # Poké Ball landing and opening animation
+  js/
+    app.js                   # Entrance, routing, dialogs, optional sound
+    game.js                  # Project Dex, quiz, profiles, badges, hobbies
+    integrations.js          # Spotify player, Plano clock, weather
+  images/
+    jeffrey-portrait.jpg      # Original cropped portrait
+    jeffrey-pixel.png         # Generated 8-bit-style portrait
+    favicon.svg
+  documents/Resume.pdf
+docs/                       # Design and asset notes
+tests/browser.cjs           # Browser regression checks
 ```
 
-## Running Locally
+## Game features
 
-Clone the repository:
+- Keyboard-accessible navigation and native modal dialogs, including Escape to close and focus return.
+- The portrait opens the original photograph and a short profile. The map portrait provides the same interaction on small screens.
+- Project catches persist locally on the visitor’s device. If storage is blocked, the game works for the current visit.
+- Reduced-motion settings skip the opening animation and stop decorative motion. Sound is off until explicitly enabled.
+- Without JavaScript, all portfolio sections remain readable and résumé/social links work.
+- Section links support browser history and direct URLs, including the old `#about` and `#top` aliases.
 
-```bash
-git clone <your-repository-url>
+## Integrations
+
+The radio accepts public Spotify playlist, album, track, and artist URLs. It validates the host and resource ID, creates an official Spotify embed, and offers an external fallback link. Nothing autoplays. To feature an owner-selected playlist, set `featuredSpotifyUrl` in `assets/js/integrations.js`. The default provides soundtrack discovery and lets visitors choose a station; it does not claim to show Jeffrey’s personal listening history.
+
+The Plano clock uses `America/Chicago`, including daylight-saving time. The weather button calls Open-Meteo for Plano (no location permission or API key) with a timeout and retry support. External services and Google Fonts need an internet connection; local fallback fonts and all core portfolio content remain available.
+
+Reference documentation: [Spotify embeds](https://developer.spotify.com/documentation/embeds), [Open-Meteo](https://open-meteo.com/en/docs).
+
+## Browser checks
+
+```sh
+npm ci
+npx playwright install chromium
+npm test
 ```
 
-Open the project folder and launch `index.html` in your browser.
+To use an existing Chrome installation instead of downloading a browser:
 
-No additional dependencies or setup are required.
+```sh
+CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" npm test
+```
+
+The test starts its own local server and covers entry, navigation, portrait/focus behavior, collecting and persistence, filtering, quizzes, badges, Spotify URL validation, weather success/failure, mobile overflow, reduced motion, and no-JavaScript access. External integration responses are mocked for reproducibility.
 
 ## Links
 
-* LinkedIn: https://www.linkedin.com/in/jeffreyjone/
-* Resume: Available directly through the portfolio
+[GitHub](https://github.com/Jeffjone) · [LinkedIn](https://www.linkedin.com/in/jeffreyjone/) · [Résumé](assets/documents/Resume.pdf)
 
-## Author
-
-**Jeffrey Jone**
-
-Computer Science student interested in software engineering, artificial intelligence, machine learning, systems programming, and quantitative finance.
+This is an independent fan-inspired portfolio, not an official Pokémon product. No original game sprites, game audio, or game fonts are bundled.
