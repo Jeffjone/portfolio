@@ -4,13 +4,13 @@
   "main": "worker.mjs",
   "compatibility_date": "2026-09-22",
   "vars": {
-    "ALLOWED_ORIGINS": "https://jeffjone.github.io",
+    "ALLOWED_ORIGINS": "https://jeffjone.github.io, https://jeffjone.dev",
     "ENVIRONMENT": "production"
   },
   "d1_databases": [{
     "binding": "DB",
     "database_name": "jeffrey-signdex",
-    "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID",
+    "database_id": "94a60517-7260-4c15-b986-c2428b2c0d1c",
     "migrations_dir": "migrations"
   }]
 }
