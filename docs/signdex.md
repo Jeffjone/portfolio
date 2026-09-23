@@ -38,7 +38,7 @@ npm run signdex:review -- approve SIGNATURE_ID
 
 ## Connect Cloudflare Workers + D1
 
-The Worker bundle has been validated with `wrangler deploy --dry-run`. The database ID, real API URL, and private secrets still need your Cloudflare account. Nothing is provisioned by the repository itself.
+This repository already points to the production `jeffrey-signdex` Worker and D1 database. For the existing deployment, apply new migrations and redeploy; do not recreate the database or replace its secrets. The steps below describe setup for a new Cloudflare account.
 
 1. Authenticate the CLI:
 
@@ -91,6 +91,8 @@ The Worker bundle has been validated with `wrangler deploy --dry-run`. The datab
 
 ## Moderate the book
 
+For email alerts and an Approve/Reject webpage with email-code login, follow [the review desk setup guide](signdex-review.md). Until that account setup is complete, use the terminal helper below.
+
 Set `SIGNDEX_API` to the Worker URL and `SIGNDEX_ADMIN_TOKEN` to your private administrator token in your terminal. The helper reads them from the environment and never stores them in the website.
 
 ```sh
@@ -124,13 +126,19 @@ A random UUID is the edition ID and retry key. If a response is lost after savin
 | GET | `/admin/signatures?status=pending` | Private review queue; bearer token required |
 | PATCH | `/admin/signatures/UUID` | Set `status` to `approved` or `rejected`; bearer token required |
 | DELETE | `/admin/signatures/UUID` | Permanently remove an entry; bearer token required |
+| GET | `/review` | Private moderation webpage; Cloudflare Access required |
+| GET | `/review/api/session` | Authenticated owner and notification configuration status |
+| GET | `/review/api/signatures?status=pending&after=CURSOR` | Private paginated queue; Access required; cursor optional |
+| GET | `/review/api/signatures/UUID` | A specific signature linked from an email |
+| PATCH | `/review/api/signatures/UUID` | Approve/reject with `expectedStatus`; Access and same-origin action header required |
+| DELETE | `/review/api/signatures/UUID` | Confirmed permanent deletion; Access and same-origin action header required |
 
 The public API cannot update, approve, or delete entries. CORS only admits configured site origins. The moderation endpoints additionally require the administrator bearer token. CORS is not bot protection; rate limiting and review are separate controls. No moderation credentials are shipped in the static frontend.
 
 ## Tests and data
 
 ```sh
-node --test tests/signdex-api.test.mjs
+node --test tests/signdex-*.test.mjs
 CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" npm test
 npx wrangler deploy --dry-run --config server/signdex/wrangler.jsonc
 ```

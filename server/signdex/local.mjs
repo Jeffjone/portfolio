@@ -7,9 +7,11 @@ import worker from './worker.mjs';
 import { openDatabase } from './sqlite-adapter.mjs';
 const root = path.resolve(fileURLToPath(new URL('../../',import.meta.url)));
 const types = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', '.png':'image/png', '.jpg':'image/jpeg', '.svg':'image/svg+xml', '.pdf':'application/pdf' };
-export async function startLocalServer({ port = 8788, database = ':memory:' } = {}) {
+export async function startLocalServer({ port = 8788, database = ':memory:', reviewPreview = false } = {}) {
   const DB = openDatabase(database);
   let origin;
+  const pendingWork=new Set();
+  const context={waitUntil(promise){pendingWork.add(promise);promise.finally(()=>pendingWork.delete(promise));}};
   const env = { DB, ENVIRONMENT:'development', RATE_LIMIT_SALT:'signdex-local-development-only', ADMIN_TOKEN:process.env.SIGNDEX_ADMIN_TOKEN || 'local-review-only' };
   const server = http.createServer(async (req,res) => {
     try {
@@ -20,7 +22,8 @@ export async function startLocalServer({ port = 8788, database = ':memory:' } = 
         // Local clients cannot spoof a production visitor IP.
         headers.delete('cf-connecting-ip');
         const request = new Request(origin + url.pathname.replace('/signdex-api','') + url.search,{ method:req.method, headers, ...(!['GET','HEAD'].includes(req.method) ? { body:Readable.toWeb(req), duplex:'half' } : {}) });
-        const response = await worker.fetch(request,env);
+        const response = await worker.fetch(request,env,context);
+        if (response.headers.get('Location')?.startsWith('/review')) response.headers.set('Location','/signdex-api'+response.headers.get('Location'));
         res.writeHead(response.status,Object.fromEntries(response.headers)); res.end(Buffer.from(await response.arrayBuffer())); return;
       }
       if (url.pathname === '/assets/js/signdex-config.js') { res.writeHead(200,{ 'Content-Type':'text/javascript' });res.end("globalThis.SignDexConfig = { apiBase: '/signdex-api' };"); return; }
@@ -33,11 +36,15 @@ export async function startLocalServer({ port = 8788, database = ':memory:' } = 
   });
   await new Promise(resolve => server.listen(port,'127.0.0.1',resolve));
   origin = `http://127.0.0.1:${server.address().port}`; env.ALLOWED_ORIGINS = origin;
-  return { origin, DB, env, close: () => new Promise(resolve => server.close(() => { DB.close(); resolve(); })) };
+  if(reviewPreview){
+    env.ACCESS_TEAM_DOMAIN='https://local-preview.cloudflareaccess.com';env.ACCESS_AUD='local-preview';env.ADMIN_EMAIL='joshj.jeffrey@gmail.com';
+    context.access={aud:env.ACCESS_AUD,async getIdentity(){return {email:env.ADMIN_EMAIL};}};
+  }
+  return { origin, DB, env, close: async () => {await Promise.allSettled([...pendingWork]);await new Promise(resolve => server.close(resolve));DB.close();} };
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   await mkdir(path.join(root,'.signdex-data'),{ recursive:true });
-  const service = await startLocalServer({ database:path.join(root,'.signdex-data/local.sqlite') });
+  const service = await startLocalServer({ database:path.join(root,'.signdex-data/local.sqlite'), reviewPreview:process.env.SIGNDEX_REVIEW_PREVIEW==='true' });
   console.log(`Portfolio + shared local SignDex: ${service.origin}/#signdex\nLocal review token: use SIGNDEX_ADMIN_TOKEN, or the documented local-review-only default.`);
   for (const signal of ['SIGINT','SIGTERM']) process.on(signal,async () => { await service.close(); process.exit(0); });
 }

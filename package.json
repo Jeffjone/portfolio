@@ -4,7 +4,7 @@
   "private": true,
   "description": "A retro RPG portfolio with a collectible Project Dex",
   "scripts": {
-    "test": "node --test tests/signdex-api.test.mjs && node tests/browser.cjs && node tests/signdex-browser.cjs",
+    "test": "node --test tests/signdex-*.test.mjs && node tests/browser.cjs && node tests/signdex-browser.cjs && node tests/signdex-review-browser.cjs",
     "signdex:dev": "node server/signdex/local.mjs",
     "signdex:review": "node scripts/signdex-review.mjs"
   },
@@ -14,5 +14,8 @@
   },
   "engines": {
     "node": ">=22.13"
+  },
+  "dependencies": {
+    "jose": "6.2.12"
   }
 }
