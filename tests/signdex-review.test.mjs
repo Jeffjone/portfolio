@@ -27,6 +27,17 @@ test('JWT authentication verifies signature, issuer, audience, expiry, type and 
   const token=await sign();assert.equal(await verifyReviewJWT(token.slice(0,-12)+'fakefakefake',access,keys),null);
   assert.equal(await authenticateReview(new Request(api,{headers:{'Cf-Access-Authenticated-User-Email':owner,Authorization:'Bearer private-test-admin-token'}}),access),null);
 });
+test('the deployed base URL redirects to the protected review desk',async t=>{
+  const {call}=setup(t);
+  for(const method of ['GET','HEAD']) {
+    const response=await call('/?entry=test',method,undefined,{},{});
+    assert.equal(response.status,302);
+    assert.equal(response.headers.get('Location'),'/review?entry=test');
+    assert.equal(response.headers.get('Cache-Control'),'no-store');
+  }
+  assert.equal((await call('/review','GET',undefined,{},{})).status,401);
+  assert.equal((await call('/signatures')).status,200);
+});
 test('review routes fail closed, including assets and API; public signatures stay accessible',async t=>{
   const {call,env,ctx}=setup(t);
   for(const path of ['/review','/review/app.js','/review/style.css','/review/api/signatures']) {

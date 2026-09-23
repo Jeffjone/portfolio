@@ -134,6 +134,11 @@ export default {
   async scheduled(_event,env,ctx) { ctx.waitUntil(deliverNotifications(env)); },
   async fetch(request, env, ctx) {
     const requestURL=new URL(request.url);
+    // Wrangler prints the bare Worker URL after deployment. Send browser visits
+    // to the review desk, whose existing Access checks still protect every action.
+    if (requestURL.pathname === '/' && ['GET','HEAD'].includes(request.method)) {
+      return new Response(null,{status:302,headers:{Location:'/review'+requestURL.search,'Cache-Control':'no-store'}});
+    }
     if (requestURL.pathname === '/review' || requestURL.pathname.startsWith('/review/')) {
       if (!accessSettings(env)) return json({error:'The private review desk is awaiting its Cloudflare Access configuration.'},503);
       const identity=await authenticateReview(request,env,ctx);

@@ -8,7 +8,10 @@
     "ENVIRONMENT": "production",
     "ADMIN_EMAIL": "joshj.jeffrey@gmail.com",
     "REVIEW_URL": "https://jeffrey-signdex.joshj-jeffrey.workers.dev/review",
-    "NOTIFICATIONS_ENABLED": "false"
+    "NOTIFICATIONS_ENABLED": "true",
+    "NOTIFICATION_FROM": "SignDex <notifications@mail.jeffjone.dev>",
+    "ACCESS_TEAM_DOMAIN": "https://rapid-flower-2f58.cloudflareaccess.com",
+    "ACCESS_AUD": "9aa34af3b96869753bc622f20d53cee4eb705c129c68fbb21f0616219b163314",
   },
   "triggers": { "crons": ["*/5 * * * *"] },
   "d1_databases": [{

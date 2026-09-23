@@ -83,6 +83,8 @@ Each accepted submission and its outbox record are saved in one transaction. Del
 
 - **503 “awaiting its Cloudflare Access configuration”:** set `ACCESS_TEAM_DOMAIN` and `ACCESS_AUD`, then redeploy.
 - **401 after login:** check the application's AUD, team URL, exact owner email, and that Access covers `/review` and descendants.
+- **Cloudflare-branded 403 “You don't have permission to view this”:** Access rejected the request before the Worker ran. In the SignDex Access application, verify that an **Allow** policy is attached with **Include → Emails → joshj.jeffrey@gmail.com**, and that **One-time PIN** is enabled and allowed for this application. Check for Block policies, a Service Auth policy used instead of Allow, or additional Require rules such as WARP/device posture. Use the application's policy tester and Access logs to identify the rejecting rule. Editing Worker code or redeploying alone cannot repair an Access policy rejection.
+- **Bare deployment URL:** `/` now redirects to `/review`; the same Access login is still required there.
 - **Public signatures suddenly require login:** the Access application covers too much. Restrict it to the `review` path.
 - **Alerts not configured:** check all five settings: `NOTIFICATIONS_ENABLED`, `NOTIFICATION_FROM`, `ADMIN_EMAIL`, `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`; also check `REVIEW_URL` and the `RESEND_API_KEY` Worker secret.
 - **Alerts enabled but no email:** inspect Resend's delivery dashboard and the outbox below. “Enabled” indicates configuration is present, not proof of delivery. Provider rejection or bounce can still prevent arrival.
