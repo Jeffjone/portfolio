@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "playwright": "1.63.0",
-    "wrangler": "4.136.1"
+    "wrangler": "4.161.0"
   },
   "engines": {
     "node": ">=22.13"
