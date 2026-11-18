@@ -84,7 +84,7 @@
   const dialogues = [
     'Hey, trainer! I’m a CS² Honors student at UT Dallas. I build software, train models, and occasionally touch grass. The tall kind, obviously.',
     'Professor Oak gave you a Pokédex. I gave you a Project Dex. Mine has fewer dragons, but significantly more C++.',
-    'There are seven projects to catch. No random encounters, no grinding, and absolutely no 1% drop rates.',
+    `There are ${projects.length} projects to catch. No random encounters, no grinding, and absolutely no 1% drop rates.`,
     'Need a break from the main quest? Visit My Room for music, hobbies, and a quick look at the weather back home.',
     'Click my pixel portrait to meet the real trainer. Yes, the glasses survived the 8-bit conversion.'
   ];
@@ -100,7 +100,11 @@
     'I’m a neurodiversity handbook with local search, inclusion scenarios, and accessible chapters.',
     'I match medication recalls to synthetic prescriptions and help pharmacy teams coordinate outreach.',
     'I connect opt-in physiological signals and desktop context to evidence-grounded conversations.',
-    'I turn a Drake catalog into connected eras, listening rooms, and music-learning games.'
+    'I turn a Drake catalog into connected eras, listening rooms, and music-learning games.',
+    'I help research professors and labs, review publication candidates, and prepare approved outreach drafts.',
+    'I watch Ticketmaster and SeatGeek event signals and tell you when a saved target matches.',
+    'I unfold digital garments and combine wardrobe pieces on a rotatable 3D mannequin.',
+    'I bring Greek coastal fashion to a searchable storefront with a wishlist and shopping bag.'
   ];
   let question = 0;
   document.getElementById('quiz-open').addEventListener('click', () => {

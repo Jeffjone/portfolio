@@ -68,23 +68,25 @@ const server = http.createServer(async (request, response) => {
     const stopped=await player.evaluate(el=>el.style.left);await page.waitForTimeout(100);await page.keyboard.up('ArrowLeft');
     assert.equal(await player.evaluate(el=>el.style.left),stopped);
     // Every route remains directly accessible without playing.
-    assert.equal(await page.locator('.project-card').count(),7);
+    assert.equal(await page.locator('.project-card').count(),11);
     await page.locator('#next-dialogue').click();
     assert.match(await page.locator('#welcome-dialogue').textContent(), /Professor Oak/);
     await navigate('projects');
     await page.locator('[data-filter="ml"]').click();
     assert.equal(await page.locator('.project-card:visible').count(), 4);
     await page.locator('[data-filter="all"]').click();
-    for (let id = 1; id <= 7; id++) {
+    const dexTotal=await page.locator('.project-card').count();
+    assert.equal(dexTotal,11);
+    for (let id = 1; id <= dexTotal; id++) {
       await page.locator(`[data-project-id="${id}"]`).click();
       await page.getByRole('button', { name: '◉ Catch this project' }).click();
       await page.keyboard.press('Escape');
     }
-    assert.equal(await page.locator('#projects [data-catch-count]').textContent(), '7 / 7');
-    assert.equal(await page.locator('.project-card.caught').count(), 7);
+    assert.equal(await page.locator('#projects [data-catch-count]').textContent(), '11 / 11');
+    assert.equal(await page.locator('.project-card.caught').count(), 11);
     await page.reload(); await enter();
     assert(await page.locator('#projects').isVisible());
-    assert.equal(await page.locator('#projects [data-catch-count]').textContent(), '7 / 7');
+    assert.equal(await page.locator('#projects [data-catch-count]').textContent(), '11 / 11');
     await navigate('home'); await page.locator('#quiz-open').click();
     await page.locator('.quiz-options button').nth(1).click();
     assert.match(await page.locator('.feedback').textContent(), /Try again/);
@@ -92,6 +94,13 @@ const server = http.createServer(async (request, response) => {
     assert.match(await page.locator('.feedback').textContent(), /Autonomous Drone/);
     await page.getByRole('button', { name: 'Next mystery' }).click();
     assert.match(await page.locator('#dialog-content').textContent(), /No internet/);
+    for(let index=2;index<11;index++){
+      if(index===2)await page.locator('.quiz-options button').nth(index-1).click();
+      await page.getByRole('button',{name:'Next mystery'}).click();
+      await page.locator('.quiz-options button').nth(index).click();
+      assert.match(await page.locator('.feedback').textContent(),/curiosity is super effective/);
+    }
+
     await page.keyboard.press('Escape');
     await navigate('awards'); await page.locator('.badge-action').first().click();
     assert.match(await page.locator('#dialog-title').textContent(), /BPA C\+\+/);
@@ -156,7 +165,7 @@ const server = http.createServer(async (request, response) => {
     assert.match(await blocked.locator('#save-status').textContent(), /current visit|this visit/);
     await blocked.locator('[data-project-id="1"]').click();
     await blocked.getByRole('button', { name: '◉ Catch this project' }).click();
-    assert.equal(await blocked.locator('#projects [data-catch-count]').textContent(), '1 / 7');
+    assert.equal(await blocked.locator('#projects [data-catch-count]').textContent(), '1 / 11');
     const animated = await browser.newPage();
     await animated.route('https://fonts.googleapis.com/**', route => route.abort());
     await animated.goto(base);
