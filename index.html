@@ -13,8 +13,11 @@
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/entrance.css">
   <link rel="stylesheet" href="assets/css/signdex.css">
+  <link rel="stylesheet" href="assets/css/world.css">
   <script src="assets/js/app.js" defer></script>
   <script src="assets/js/game.js" defer></script>
+  <script src="assets/js/world.js" defer></script>
+  <script src="assets/js/sphere.js" defer></script>
   <script src="assets/js/integrations.js" defer></script>
   <script src="assets/js/signdex-config.js" defer></script>
   <script src="assets/js/signdex-pokemon.js" defer></script>
@@ -34,6 +37,8 @@
         <button class="pokeball-button" id="enter-portfolio" aria-label="Open Poké Ball and enter Jeffrey Jone’s portfolio" aria-describedby="encounter-hint">
           <span class="pokeball-float" aria-hidden="true">
             <span class="pokeball-spin">
+              <canvas class="sphere-half sphere-top" width="240" height="240"></canvas>
+              <canvas class="sphere-half sphere-bottom" width="240" height="240"></canvas>
               <span class="ball-half ball-top"></span>
               <span class="ball-half ball-bottom"></span>
               <span class="ball-button"><span></span></span>
@@ -70,25 +75,29 @@
       <div class="screen-top"><span id="location-label">PALLET? NOPE. PLANO, TX.</span><span class="save-light">● GAME READY</span></div>
       <section id="home" class="game-panel">
         <div class="home-heading"><div><span class="eyebrow">A wild developer appeared!</span><h1 id="portfolio-heading" tabindex="-1">Hello, world.<br>Meet your next <span>teammate.</span></h1></div><span class="edition-stamp">PLAYER<br>01<br>★</span></div>
-        <div class="world-map" aria-label="Portfolio town map">
+        <div class="world-map" id="world-map" tabindex="0" role="group" aria-label="Explore portfolio town" aria-describedby="map-help">
           <div class="map-grid" aria-hidden="true"></div><div class="map-water" aria-hidden="true"></div><div class="map-path path-horizontal" aria-hidden="true"></div><div class="map-path path-vertical" aria-hidden="true"></div><div class="map-trees" aria-hidden="true"></div>
           <span class="map-sign">ROUTE 001 · THE BEGINNING</span>
           <a class="map-place place-lab" href="#projects" data-route="projects"><span class="building lab" aria-hidden="true"><i></i></span><span class="place-label">PROJECT LAB</span></a>
           <a class="map-place place-gym" href="#awards" data-route="awards"><span class="building gym" aria-hidden="true"><i></i></span><span class="place-label">BADGE GYM</span></a>
           <a class="map-place place-room" href="#room" data-route="room"><span class="building house" aria-hidden="true"><i></i></span><span class="place-label">MY ROOM ♫</span></a>
           <button class="map-trainer" data-profile aria-label="Meet Jeffrey"><img src="assets/images/jeffrey-pixel.png" width="48" height="48" alt=""><span>!</span></button>
-          <span class="map-tip">SELECT A LOCATION TO EXPLORE</span>
+          <a class="map-stop stop-quests" href="#experience" data-route="experience">⚑ Quest log</a>
+          <a class="map-stop stop-skills" href="#skills" data-route="skills">ϟ Move set</a>
+          <a class="map-stop stop-sign" href="#signdex" data-route="signdex">✎ SignDex</a>
+          <div id="map-player" class="map-player" aria-label="Your explorer" data-facing="down"><svg viewBox="0 0 16 24" aria-hidden="true" shape-rendering="crispEdges"><path fill="#302b3b" d="M4 1h8v2h2v5H2V3h2z"/><path fill="#c77789" d="M4 2h8v2H4zM2 5h12v2H2z"/><path fill="#ecc69b" d="M4 8h8v5H4zM1 14h3v5H1zM12 14h3v5h-3z"/><path fill="#302b3b" d="M5 9h2v2H5zM9 9h2v2H9z"/><path fill="#6e5885" d="M4 13h8v7H4z"/><path fill="#e4d79d" d="M6 14h4v5H6z"/><path class="foot left-foot" fill="#302b3b" d="M3 20h4v4H3z"/><path class="foot right-foot" fill="#302b3b" d="M9 20h4v4H9z"/></svg></div>
         </div>
+        <div class="map-controls"><p id="map-help">Focus the map. Move with arrows / WASD; press E or Enter near a location. Links also work directly.</p><div class="map-pad" aria-label="Movement controls"><button data-move="up" aria-label="Walk north">↑</button><button data-move="left" aria-label="Walk west">←</button><button data-move="down" aria-label="Walk south">↓</button><button data-move="right" aria-label="Walk east">→</button></div><button id="map-interact" class="game-button" disabled>Explore town</button><span id="map-status" role="status">Walk up to a building or sign.</span></div>
         <div class="dialogue-box"><div class="speaker">JEFFREY</div><p id="welcome-dialogue" aria-live="polite">Hey, trainer! I’m a CS² Honors student at UT Dallas. I build software, train models, and occasionally touch grass. The tall kind, obviously.</p><button class="dialogue-next" id="next-dialogue" aria-label="Next dialogue">▼</button></div>
         <div class="home-actions"><a href="#projects" data-route="projects" class="game-button primary">▶ Explore Project Dex</a><button class="game-button" id="quiz-open">? Who’s that project?</button><a href="#signdex" data-route="signdex" class="game-button">✎ Leave your signature</a></div>
-        <div class="home-stats"><div><strong>4.0</strong><span>GPA / KNOWLEDGE STAT</span></div><div><strong>450+</strong><span>TUTORING HOURS</span></div><div><strong data-catch-count>0 / 4</strong><span>PROJECTS CAUGHT</span></div></div>
+        <div class="home-stats"><div><strong>4.0</strong><span>GPA / KNOWLEDGE STAT</span></div><div><strong>450+</strong><span>TUTORING HOURS</span></div><div><strong data-catch-count>0 / 7</strong><span>PROJECTS CAUGHT</span></div></div>
       </section>
     <section id="projects" class="game-panel">
       <div class="section-head">
         <div><div class="eyebrow">001 / Project Pokédex</div><h2>Gotta catch ’em all.</h2></div>
-        <p>Four projects in the tall grass. Inspect each encounter and add it to your Project Dex.</p>
+        <p>Seven projects in the tall grass. Inspect each encounter and add it to your Project Dex.</p>
       </div>
-      <p class="collection-line" role="status">DEX COMPLETION: <span data-catch-count>0 / 4</span> <span id="save-status">Saved on this device.</span></p><div class="dex-frame">
+      <p class="collection-line" role="status">DEX COMPLETION: <span data-catch-count>0 / 7</span> <span id="save-status">Saved on this device.</span></p><div class="dex-frame">
         <div class="project-controls" aria-label="Project filters">
           <button class="filter active" data-filter="all">All types</button>
           <button class="filter" data-filter="ml">Psychic / ML</button>
@@ -118,9 +127,12 @@
           <article class="card project-card" data-category="web research">
             <div class="card-top"><div class="card-num">#004 · WEB PLATFORM</div><span class="project-type"></span></div>
             <h3>Neuroscope</h3>
-            <p>Led development of a React + Node.js web platform for neurodiversity research and education, including backend services, data structures, interface components, and researcher workflows.</p>
-            <div class="chips"><span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Full Stack</span><span class="chip">Research</span></div>
-          <button class="game-button encounter-project" data-project-id="4">Inspect encounter →</button></article>
+            <p>A student-built neurodiversity handbook with ten static pages, local search, a glossary, lived-experience videos, inclusion scenarios, and knowledge checks. Includes keyboard accessibility, reading progress, and reduced-motion support.</p>
+            <div class="chips"><span class="chip">JavaScript</span><span class="chip">Static HTML</span><span class="chip">Accessibility</span><span class="chip">Education</span></div>
+          <a href="https://github.com/Jeffjone/nueroscope" target="_blank" rel="noopener">View source ↗</a><button class="game-button encounter-project" data-project-id="4">Inspect encounter →</button></article>
+<article class="card project-card" data-category="ml web"><div class="card-top"><div class="card-num">#005 · HEALTHCARE PROTOTYPE</div><span class="project-type"></span></div><h3>MediCall</h3><p>A HackRice 16 prototype that matches openFDA medication recalls to synthetic prescription records, helps pharmacy staff review affected patients, and coordinates approved voice outreach. Gemini supports label scanning and workflow tools; ElevenLabs and Twilio power the call flow.</p><div class="chips"><span class="chip">TypeScript</span><span class="chip">React</span><span class="chip">Supabase</span><span class="chip">Gemini</span><span class="chip">openFDA</span></div><a href="https://github.com/Jeffjone/MediCall" target="_blank" rel="noopener">View source ↗</a><button class="game-button encounter-project" data-project-id="5">Inspect encounter →</button></article>
+<article class="card project-card" data-category="ml systems"><div class="card-top"><div class="card-num">#006 · DESKTOP INTELLIGENCE</div><span class="project-type"></span></div><h3>TrueIris</h3><p>Built for RowdyHacks XII: an opt-in desktop companion that combines physiological observations, application context, and time-series history. Explore confidence-aware signals, personal baselines, cited Gemini conversations, voice interaction, and personal experiments. Includes labeled mock and demo modes.</p><div class="chips"><span class="chip">Electron</span><span class="chip">React</span><span class="chip">Fastify</span><span class="chip">TimescaleDB</span><span class="chip">Gemini</span><span class="chip">Presage</span></div><a href="https://github.com/Jeffjone/TrueIris" target="_blank" rel="noopener">View source ↗</a><button class="game-button encounter-project" data-project-id="6">Inspect encounter →</button></article>
+<article class="card project-card" data-category="web"><div class="card-top"><div class="card-num">#007 · MUSIC DISCOVERY</div><span class="project-type"></span></div><h3>weloveovo</h3><p>A cinematic Drake discovery and learning app with connected career eras, a searchable music catalog, listening rooms, a relationship graph, and quiz modes. Includes browser-local favorites, optional Spotify playback, and a curator-reviewed catalog pipeline.</p><div class="chips"><span class="chip">TypeScript</span><span class="chip">Next.js</span><span class="chip">PostgreSQL</span><span class="chip">Spotify</span><span class="chip">Genius</span></div><a href="https://github.com/Jeffjone/weloveovo" target="_blank" rel="noopener">View source ↗</a><button class="game-button encounter-project" data-project-id="7">Inspect encounter →</button></article>
         </div>
       </div>
     </section>

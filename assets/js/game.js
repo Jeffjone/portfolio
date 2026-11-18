@@ -6,7 +6,7 @@
   const projects = cards.map((card, index) => ({
     id: String(index + 1), title: card.querySelector('h3').textContent,
     description: card.querySelector('p').textContent,
-    chips: [...card.querySelectorAll('.chip')].map(chip => chip.textContent), card,
+    chips: [...card.querySelectorAll('.chip')].map(chip => chip.textContent), source: card.querySelector('a[href]')?.href, card,
   }));
   let caught = new Set();
   let canSave = true;
@@ -28,7 +28,7 @@
     return wrapper;
   }
   function updateDex() {
-    document.querySelectorAll('[data-catch-count]').forEach(el => { el.textContent = `${caught.size} / 4`; });
+    document.querySelectorAll('[data-catch-count]').forEach(el => { el.textContent = `${caught.size} / ${projects.length}`; });
     projects.forEach(project => {
       project.card.classList.toggle('caught', caught.has(project.id));
       project.card.querySelector('button').textContent = caught.has(project.id) ? '✓ View Dex entry' : 'Inspect encounter →';
@@ -39,16 +39,17 @@
     caught.add(project.id);
     try { localStorage.setItem(storageKey, JSON.stringify([...caught])); } catch { canSave = false; }
     updateDex();
-    toast(caught.size === 4 ? 'Dex complete! You caught ’em all. Hire this trainer?' : `Gotcha! ${project.title} was added to your Dex.`);
+    toast(caught.size === projects.length ? 'Dex complete! You caught ’em all. Hire this trainer?' : `Gotcha! ${project.title} was added to your Dex.`);
   }
   document.querySelectorAll('[data-project-id]').forEach(button => button.addEventListener('click', () => {
     const project = projects.find(item => item.id === button.dataset.projectId);
     const wrapper = content(project.title);
-    wrapper.prepend(node('div', `WILD PROJECT № 00${project.id} APPEARED!`, 'dialog-kicker'));
+    wrapper.prepend(node('div', `WILD PROJECT № ${project.id.padStart(3, '0')} APPEARED!`, 'dialog-kicker'));
     wrapper.append(node('p', project.description));
     const chips = node('div', '', 'chips');
     project.chips.forEach(chip => chips.append(node('span', chip, 'chip')));
     wrapper.append(chips, node('p', 'It used PROBLEM SOLVING. It’s super effective!'));
+    if(project.source){const source=node('a','View project source ↗','game-button');source.href=project.source;source.target='_blank';source.rel='noopener';wrapper.append(source);}
     const catchButton = node('button', caught.has(project.id) ? '✓ Already in your Dex' : '◉ Catch this project', 'game-button primary');
     catchButton.disabled = caught.has(project.id);
     catchButton.addEventListener('click', () => {
@@ -83,7 +84,7 @@
   const dialogues = [
     'Hey, trainer! I’m a CS² Honors student at UT Dallas. I build software, train models, and occasionally touch grass. The tall kind, obviously.',
     'Professor Oak gave you a Pokédex. I gave you a Project Dex. Mine has fewer dragons, but significantly more C++.',
-    'There are four projects to catch. No random encounters, no grinding, and absolutely no 1% drop rates.',
+    'There are seven projects to catch. No random encounters, no grinding, and absolutely no 1% drop rates.',
     'Need a break from the main quest? Visit My Room for music, hobbies, and a quick look at the weather back home.',
     'Click my pixel portrait to meet the real trainer. Yes, the glasses survived the 8-bit conversion.'
   ];
@@ -96,7 +97,10 @@
     'I see with LiDAR, learn with reinforcement learning, and really prefer not to fly into walls.',
     'No internet? No problem. I relay encrypted messages between devices when networks are down.',
     'I use numerical models to explore how spinal tumor growth and cardiovascular strain interact.',
-    'I’m a React + Node.js platform built for neurodiversity research and education.'
+    'I’m a neurodiversity handbook with local search, inclusion scenarios, and accessible chapters.',
+    'I match medication recalls to synthetic prescriptions and help pharmacy teams coordinate outreach.',
+    'I connect opt-in physiological signals and desktop context to evidence-grounded conversations.',
+    'I turn a Drake catalog into connected eras, listening rooms, and music-learning games.'
   ];
   let question = 0;
   document.getElementById('quiz-open').addEventListener('click', () => {

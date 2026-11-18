@@ -35,6 +35,8 @@ const server = http.createServer(async (request, response) => {
     await page.goto(base);
     assert(await page.locator('#portfolio').evaluate(element => element.inert));
     assert.equal(await page.locator('.pokeball-spin').evaluate(element => getComputedStyle(element).animationName), 'none');
+    assert(await page.locator('#enter-portfolio').evaluate(el => el.classList.contains('sphere-ready')));
+    assert(await page.locator('.sphere-top').evaluate(el => el.getContext('2d').getImageData(120,60,1,1).data[3] > 0));
     await page.keyboard.press('Tab');
     assert.equal(await page.evaluate(() => document.activeElement.id), 'enter-portfolio');
     await page.keyboard.press('Enter');
@@ -53,22 +55,36 @@ const server = http.createServer(async (request, response) => {
     }
     await page.keyboard.press('Escape');
     assert(await page.locator('.portrait-button').evaluate(element => element === document.activeElement));
+    // Movement is scoped to a focused map, stops on blur, and cannot enter water.
+    await page.waitForTimeout(100); // Let the dialog's close/focus restoration finish.
+    const player=page.locator('#map-player');
+    const start=await player.evaluate(el=>parseFloat(el.style.left));
+    await page.locator('#world-map').focus();
+    await page.keyboard.down('ArrowRight');await page.waitForTimeout(350);await page.keyboard.up('ArrowRight');
+    assert(await player.evaluate(el=>parseFloat(el.style.left)) > start);
+    await page.keyboard.down('ArrowRight');await page.waitForTimeout(2000);await page.keyboard.up('ArrowRight');
+    assert(await player.evaluate(el=>parseFloat(el.style.left)) <= 83);
+    await page.keyboard.down('ArrowLeft');await page.waitForTimeout(250);await page.locator('#next-dialogue').focus();
+    const stopped=await player.evaluate(el=>el.style.left);await page.waitForTimeout(100);await page.keyboard.up('ArrowLeft');
+    assert.equal(await player.evaluate(el=>el.style.left),stopped);
+    // Every route remains directly accessible without playing.
+    assert.equal(await page.locator('.project-card').count(),7);
     await page.locator('#next-dialogue').click();
     assert.match(await page.locator('#welcome-dialogue').textContent(), /Professor Oak/);
     await navigate('projects');
     await page.locator('[data-filter="ml"]').click();
-    assert.equal(await page.locator('.project-card:visible').count(), 2);
+    assert.equal(await page.locator('.project-card:visible').count(), 4);
     await page.locator('[data-filter="all"]').click();
-    for (let id = 1; id <= 4; id++) {
+    for (let id = 1; id <= 7; id++) {
       await page.locator(`[data-project-id="${id}"]`).click();
       await page.getByRole('button', { name: '◉ Catch this project' }).click();
       await page.keyboard.press('Escape');
     }
-    assert.equal(await page.locator('#projects [data-catch-count]').textContent(), '4 / 4');
-    assert.equal(await page.locator('.project-card.caught').count(), 4);
+    assert.equal(await page.locator('#projects [data-catch-count]').textContent(), '7 / 7');
+    assert.equal(await page.locator('.project-card.caught').count(), 7);
     await page.reload(); await enter();
     assert(await page.locator('#projects').isVisible());
-    assert.equal(await page.locator('#projects [data-catch-count]').textContent(), '4 / 4');
+    assert.equal(await page.locator('#projects [data-catch-count]').textContent(), '7 / 7');
     await navigate('home'); await page.locator('#quiz-open').click();
     await page.locator('.quiz-options button').nth(1).click();
     assert.match(await page.locator('.feedback').textContent(), /Try again/);
@@ -112,6 +128,13 @@ const server = http.createServer(async (request, response) => {
     await navigate('home'); await page.locator('.map-trainer').click();
     assert(await page.locator('#game-dialog').evaluate(element => element.scrollWidth <= element.clientWidth));
     await page.keyboard.press('Escape');
+    await page.reload();await enter();
+    const down=page.locator('[data-move="down"]');
+    await down.hover();await page.mouse.down();await page.waitForTimeout(600);await page.mouse.up();
+    assert.match(await page.locator('#map-interact').textContent(), /MY ROOM/);
+    await page.locator('#world-map').focus();await page.keyboard.press('e');
+    assert(await page.locator('#room').isVisible());
+    await navigate('home');
     await page.setViewportSize({ width: 320, height: 650 });
     await page.reload();
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Entrance overflow at 320px');
@@ -133,10 +156,14 @@ const server = http.createServer(async (request, response) => {
     assert.match(await blocked.locator('#save-status').textContent(), /current visit|this visit/);
     await blocked.locator('[data-project-id="1"]').click();
     await blocked.getByRole('button', { name: '◉ Catch this project' }).click();
-    assert.equal(await blocked.locator('#projects [data-catch-count]').textContent(), '1 / 4');
+    assert.equal(await blocked.locator('#projects [data-catch-count]').textContent(), '1 / 7');
     const animated = await browser.newPage();
     await animated.route('https://fonts.googleapis.com/**', route => route.abort());
-    await animated.goto(base); await animated.locator('#enter-portfolio').click();
+    await animated.goto(base);
+    const before=await animated.locator('.sphere-top').evaluate(el=>el.toDataURL());
+    await animated.waitForTimeout(600);
+    assert.notEqual(await animated.locator('.sphere-top').evaluate(el=>el.toDataURL()),before);
+    await animated.locator('#enter-portfolio').click();
     assert(await animated.locator('#encounter').isVisible());
     await animated.waitForFunction(() => document.getElementById('encounter').hidden);
     assert.deepEqual(errors, []); assert.deepEqual(missingAssets, []);
